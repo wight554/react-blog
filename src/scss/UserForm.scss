@@ -1,0 +1,23 @@
+.UserForm {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    align-items: center;
+    padding: 20px;
+    input {
+        font-size: 2rem;
+        max-width: 500px;
+        border-radius: 5px;
+        outline: none;
+        margin: 5px 0;
+        padding: 5px;
+    }
+    button {
+        font-size: 1.5rem;
+        max-width: 200px;
+        border-radius: 5px;
+        &:focus{
+            outline: none;
+        }
+    }
+}

@@ -1,0 +1,64 @@
+.Post {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 0 1rem;
+        .title {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 1.5rem;
+        }
+    }
+    article {
+        margin: 1rem 0;
+    }
+    img {
+        width: 100%;
+        height: auto;
+    }
+    textarea {
+        resize: none;
+    }
+    button {
+        border-radius: 3px;
+        &:focus{
+            outline: none;
+        }
+    }
+    .buttons {
+        align-self: flex-end;
+    }
+    .comments{
+        background-color: #fafafa;
+        border-color: #333333;
+        border-bottom-style: solid;
+        border-top-style: solid;
+        .Comment {
+            padding: 5px;
+            border: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+            .commentName {
+                word-break:break-all
+            }
+        }
+        div.Comment:last-child {
+            border-bottom: 0;
+        }
+    }
+    .CommentForm {
+        display: flex;
+        flex-direction: column;
+        button {
+            align-self: flex-end;
+            min-width: 100px;
+        }
+    }
+}

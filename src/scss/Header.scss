@@ -1,0 +1,46 @@
+.Header {
+    display: flex;
+    flex-direction: row;
+    flex-basis: 5rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: #333333;
+    color: #ffffff;
+    align-items: center;
+    padding: 10px;
+    .title {
+        color: #5e92f3;
+        font-size: 3rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-decoration: none;
+    }
+    .options {
+        font-size: 1.5rem;
+        button {
+            font-size: 1.5rem;
+            background: none;
+            color: #5e92f3;
+            border: none;
+            border-radius: 3px;
+            padding: 0px;
+            cursor: pointer;
+            vertical-align: baseline;
+            &:hover{
+                color: lighten(#5e92f3, 5);
+            }
+            &:focus{
+                color: lighten(#5e92f3, 10);
+                outline: none;
+            }
+        }
+    }
+    a {
+        color: #5e92f3;
+        text-decoration: none;
+        text-transform: uppercase;
+        &:hover{
+            color: lighten(#5e92f3, 5);
+        }
+    }
+}

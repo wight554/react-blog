@@ -1,0 +1,71 @@
+.Blog {
+    color: #333333;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    .title {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    .Navigation {
+        display: flex;
+        flex-wrap: wrap;
+        button {
+            text-transform: uppercase;
+            font-weight: bold;
+            background-color:#5e92f3;
+            color:#333333;
+            flex-grow: 10;
+            height: 50px;
+            border: none;
+            font-size: 25px;
+            &:hover{
+                background-color: lighten(#5e92f3, 3);
+            }
+            &:focus{
+                background-color: lighten(#5e92f3, 10);
+                outline: none;
+            }
+        }
+        .newPost {
+            flex-grow: 1;
+            text-align: center;
+            button {
+                width: 100%;
+            }
+        }
+    }
+    .posts {
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding: 1rem;
+        .PostCard {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, .3);
+            margin: 5px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            .card-header {
+                display: flex;
+                justify-content: space-between;
+                margin: 5px 0;
+                .title{
+                    font-size: 1.5rem;
+                }
+            }
+            a{
+                align-self: flex-end;
+            }
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+    }   
+}
