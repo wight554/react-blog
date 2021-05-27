@@ -1,18 +1,18 @@
 import React from 'react';
 
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const PostCard = ({title, author, date, _id}) => {
+const PostCard = ({ title, author, date, _id }) => {
+  const { firstName, lastName } = author;
   return (
     <div className="PostCard">
-      <img src="https://via.placeholder.com/400x300" alt="" />
       <div className="card-header">
         <span className="title">{title}</span>
-        <span>{author}, {date.toString ().slice (0, 10)}</span>
+        <span>
+          {firstName} {lastName}, {date.toString().slice(0, 10)}
+        </span>
       </div>
-      <Link to={`/posts/${_id}`}>
-        READ MORE...
-      </Link>
+      <Link to={`/posts/${_id}`}>(Read more...)</Link>
     </div>
   );
 };

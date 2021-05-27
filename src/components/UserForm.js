@@ -1,36 +1,63 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import '../scss/UserForm.scss';
 
 class UserForm extends Component {
-  constructor (props) {
-    super (props);
+  constructor(props) {
+    super(props);
     this.state = {
-      username: '',
+      username: (this.props.user || {}).username || '',
       password: '',
+      firstName: (this.props.user || {}).firstName || '',
+      lastName: (this.props.user || {}).lastName || '',
     };
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     const name = e.target.name;
-    this.setState ({
+    this.setState({
       [name]: e.target.value,
     });
   };
-  handleSubmit = e => {
-    e.preventDefault ();
-    this.props.submitForm ({
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.submitForm({
       username: this.state.username,
       password: this.state.password,
-    });
-    this.setState ({
-      username: '',
-      password: '',
+      ...(this.props.register
+        ? {
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+          }
+        : {}),
+      ...(this.props.user
+        ? {
+            id: this.props.user.id,
+          }
+        : {}),
     });
   };
-  render () {
+  render() {
     return (
       <form className="UserForm">
+        {this.props.register && (
+          <>
+            <input
+              name="firstName"
+              type="text"
+              value={this.state.firstName}
+              placeholder="First Name"
+              onChange={this.handleChange}
+            />
+            <input
+              name="lastName"
+              type="text"
+              value={this.state.lastName}
+              placeholder="Last Name"
+              onChange={this.handleChange}
+            />
+          </>
+        )}
         <input
           name="username"
           type="text"
@@ -45,9 +72,7 @@ class UserForm extends Component {
           placeholder="password"
           onChange={this.handleChange}
         />
-        <button onClick={this.handleSubmit}>
-          Submit
-        </button>
+        <button onClick={this.handleSubmit}>Submit</button>
       </form>
     );
   }
