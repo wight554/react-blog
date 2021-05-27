@@ -40,7 +40,7 @@
         flex-direction: row;
         flex-grow: 1;
         flex-wrap: wrap;
-        justify-content: space-around;
+        justify-content: flex-start;
         padding: 1rem;
         .PostCard {
             background-color: #ffffff;
@@ -51,6 +51,8 @@
             display: flex;
             flex-direction: column;
             flex-grow: 1;
+            max-width: 500px;
+            max-height: 200px;
             .card-header {
                 display: flex;
                 justify-content: space-between;

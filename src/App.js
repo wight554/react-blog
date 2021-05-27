@@ -13,6 +13,7 @@ import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import store from './store';
 import {setCurrentUser, logoutUser} from './actions/authActions';
+import Profile from './components/Profile';
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -45,6 +46,7 @@ class App extends Component {
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/newpost" component={PostForm} />
+            <Route exact path="/profile" component={Profile} />
             <Route exact path="/posts/:id" component={Post} />
           </div>
         </Router>
