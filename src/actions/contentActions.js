@@ -10,7 +10,7 @@ export const getDB = (db) => (dispatch) => {
     .catch((err) =>
       dispatch({
         type: GET_ERRORS,
-        payload: err.data,
+        payload: err?.data,
       })
     );
 };
@@ -22,7 +22,7 @@ export const getElement = (el) => (dispatch) => {
     .catch((err) =>
       dispatch({
         type: GET_ERRORS,
-        payload: err.data,
+        payload: err?.data,
       })
     );
 };

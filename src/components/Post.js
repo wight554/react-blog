@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import ReactHtmlParser from 'react-html-parser';
+
 import CommentForm from './CommentForm';
-
 import Comment from './Comment';
-
 import { getElement, createElement, removeElement, updateElement } from '../actions/contentActions';
-
 import '../scss/Post.scss';
+import RichTextEditor from 'react-rte';
 
 const isEmpty = require('is-empty');
 
@@ -16,21 +16,21 @@ class Post extends Component {
     this.state = {
       isEdited: false,
       isLoaded: false,
-      name: '',
+      name: RichTextEditor.createEmptyValue(),
       comments: [],
       author: {},
     };
   }
   loadPost = async () => {
     let post = await this.props.getElement(`posts/${this.props.match.params.id}`);
-    this.setState({ ...post, isLoaded: true });
+    this.setState({ ...post, name: RichTextEditor.createValueFromString(post.name, 'html'), isLoaded: true });
   };
   deletePost = async () => {
     await this.props.removeElement(`posts/${this.props.match.params.id}`);
     this.props.history.push('/');
   };
   addComment = async (val) => {
-    const { username, firstName, lastName, id } = this.props.auth.user.user;
+    const { id } = this.props.auth.user.user;
     let newComment = await this.props.createElement(`posts/${this.props.match.params.id}/comments/`, {
       name: val,
       author: id,
@@ -59,14 +59,14 @@ class Post extends Component {
     }
     this.setState({ isEdited: !this.state.isEdited });
   };
-  handleChange = (evt) => {
-    this.setState({ name: evt.target.value });
+  handleChange = (value) => {
+    this.setState({ name: value });
   };
   componentWillMount() {
     this.loadPost();
   }
   render() {
-    const { title, author, name, description, isEdited } = this.state;
+    const { author, name, isEdited } = this.state;
     const { username, lastName, firstName, _id } = author;
     let comments = [];
     if (!isEmpty(this.state.comments)) {
@@ -84,8 +84,13 @@ class Post extends Component {
                 {firstName} {lastName} ({username}), {this.state.date.toString().slice(0, 10)}
               </span>
             </header>
-            <img src="https://via.placeholder.com/1000x300" alt="" />
-            <article>{isEdited ? <textarea className="" value={name} onChange={this.handleChange} /> : name}</article>
+            <article>
+              {isEdited ? (
+                <RichTextEditor value={name} onChange={this.handleChange} />
+              ) : (
+                ReactHtmlParser(name.toString('html'))
+              )}
+            </article>
             {this.props.auth.isAuthenticated && _id === this.props.auth.user.user.id && (
               <div className="buttons">
                 <button className="" onClick={this.onEdit}>
