@@ -24,7 +24,10 @@ class Comment extends Component {
     return (
       <div className="Comment">
         {this.state.isEdited ? (
-          <textarea value={this.state.name} onChange={this.handleChange} />
+          <div style={{ width: '100%' }}>
+            <textarea value={this.state.name} onChange={this.handleChange} style={{ width: '100%' }} />
+            <span>{this.state.name.length}/250</span>
+          </div>
         ) : (
           <div>
             <span>

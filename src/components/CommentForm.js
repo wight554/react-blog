@@ -1,23 +1,25 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 class CommentForm extends Component {
-  constructor (props) {
-    super (props);
-    this.state = {inputValue: ''};
+  constructor(props) {
+    super(props);
+    this.state = { inputValue: '' };
   }
-  handleChange = e => {
-    this.setState ({
-      inputValue: e.target.value,
-    });
+  handleChange = (e) => {
+    if (e.target.value.length <= 250) {
+      this.setState({
+        inputValue: e.target.value,
+      });
+    }
   };
-  handleSubmit = e => {
-    e.preventDefault ();
-    this.props.addComment (this.state.inputValue);
-    this.setState ({
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.addComment(this.state.inputValue);
+    this.setState({
       inputValue: '',
     });
   };
-  render () {
+  render() {
     return (
       <form className="CommentForm">
         <textarea
@@ -26,9 +28,8 @@ class CommentForm extends Component {
           onChange={this.handleChange}
           placeholder="Enter your comment here"
         />
-        <button onClick={this.handleSubmit}>
-          Post
-        </button>
+        <span>{this.state.inputValue.length}/250</span>
+        <button onClick={this.handleSubmit}>Post</button>
       </form>
     );
   }

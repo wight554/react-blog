@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactHtmlParser from 'react-html-parser';
+import RichTextEditor, { EditorValue } from 'react-rte';
+import { EditorState, ContentState } from 'draft-js';
 
 import CommentForm from './CommentForm';
 import Comment from './Comment';
 import { getElement, createElement, removeElement, updateElement } from '../actions/contentActions';
 import '../scss/Post.scss';
-import RichTextEditor from 'react-rte';
 
 const isEmpty = require('is-empty');
 
@@ -59,8 +60,22 @@ class Post extends Component {
     }
     this.setState({ isEdited: !this.state.isEdited });
   };
-  handleChange = (value) => {
-    this.setState({ name: value });
+  handleChange = (editorValue) => {
+    const contentState = editorValue.getEditorState().getCurrentContent();
+    const oldContent = this.state.name.getEditorState().getCurrentContent();
+    if (contentState === oldContent || contentState.getPlainText().length <= 750) {
+      this.setState({ name: editorValue });
+    } else {
+      const editorState = EditorState.undo(
+        EditorState.push(
+          this.state.name.getEditorState(),
+          ContentState.createFromText(oldContent.getPlainText()),
+          'delete-character'
+        )
+      );
+      const editorValue = EditorValue.createFromState(editorState);
+      this.setState({ name: editorValue });
+    }
   };
   componentWillMount() {
     this.loadPost();
@@ -86,7 +101,12 @@ class Post extends Component {
             </header>
             <article>
               {isEdited ? (
-                <RichTextEditor value={name} onChange={this.handleChange} />
+                <>
+                  <RichTextEditor value={name} onChange={this.handleChange} />
+                  <span>
+                    {(this.state.name?.getEditorState()?.getCurrentContent()?.getPlainText() || '').length}/750
+                  </span>
+                </>
               ) : (
                 ReactHtmlParser(name.toString('html'))
               )}

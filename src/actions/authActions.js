@@ -2,7 +2,7 @@ import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import jwt_decode from 'jwt-decode';
 
-import { GET_ERRORS, SET_CURRENT_USER } from './types';
+import { SET_CURRENT_USER } from './types';
 
 const host = 'https://koa-blog-rest.herokuapp.com';
 
@@ -11,12 +11,7 @@ export const registerUser = (userData, history) => (dispatch) => {
   axios
     .post(`${host}/api/register`, userData)
     .then((res) => history.push('/login'))
-    .catch((err) =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err?.response?.data || new Error(),
-      })
-    );
+    .catch((err) => {});
 };
 
 // Login - get user token
@@ -34,12 +29,7 @@ export const loginUser = (userData) => (dispatch) => {
       // Set current user
       dispatch(setCurrentUser(decoded));
     })
-    .catch((err) =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err?.response?.data || new Error(),
-      })
-    );
+    .catch((err) => {});
 };
 
 // Set logged in user
@@ -75,10 +65,5 @@ export const updateUser = (userData) => (dispatch) => {
       // Set current user
       dispatch(setCurrentUser(decoded));
     })
-    .catch((err) =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err?.response?.data || new Error(),
-      })
-    );
+    .catch((err) => {});
 };

@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const PostCard = ({ title, author, date, _id }) => {
-  const { firstName, lastName } = author;
+  const { firstName, lastName } = author || {};
   return (
     <div className="PostCard">
       <div className="card-header">

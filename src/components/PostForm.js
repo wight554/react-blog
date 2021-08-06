@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import RichTextEditor from 'react-rte';
+import RichTextEditor, { EditorValue } from 'react-rte';
+import { EditorState, ContentState } from 'draft-js';
 
 import { createElement } from '../actions/contentActions';
 
@@ -28,14 +29,28 @@ class PostForm extends Component {
       [name]: e.target.value,
     });
   };
-  handleChange = (value) => {
-    this.setState({ name: value });
+  handleChange = (editorValue) => {
+    const contentState = editorValue.getEditorState().getCurrentContent();
+    const oldContent = this.state.name.getEditorState().getCurrentContent();
+    if (contentState === oldContent || contentState.getPlainText().length <= 750) {
+      this.setState({ name: editorValue });
+    } else {
+      const editorState = EditorState.undo(
+        EditorState.push(
+          this.state.name.getEditorState(),
+          ContentState.createFromText(oldContent.getPlainText()),
+          'delete-character'
+        )
+      );
+      const editorValue = EditorValue.createFromState(editorState);
+      this.setState({ name: editorValue });
+    }
   };
   handleSubmit = (e) => {
     e.preventDefault();
     this.addPost({ name: this.state.name.toString('html'), title: this.state.title });
     this.setState({
-      name: '',
+      name: RichTextEditor.createEmptyValue(),
       title: '',
     });
   };
@@ -50,6 +65,7 @@ class PostForm extends Component {
           placeholder="Title"
         />
         <RichTextEditor value={this.state.name} onChange={this.handleChange} />
+        <span>{(this.state.name?.getEditorState()?.getCurrentContent()?.getPlainText() || '').length}/750</span>
         <button className="" onClick={this.handleSubmit}>
           Submit
         </button>
